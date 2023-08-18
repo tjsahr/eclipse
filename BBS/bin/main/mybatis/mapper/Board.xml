@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+									  	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.himedia.springboot.BoardDAO">
+<select id="getList" resultType="com.himedia.springboot.BoardDTO">
+	select seqno, title, content, writer, hit, created, updated from board
+	order by updated desc limit #{param1},#{param2}
+</select>
+
+<select id="view" resultType="com.himedia.springboot.BoardDTO">
+	select seqno, title, content, writer, hit, created, updated from board where seqno=#{param1};
+</select>
+
+<update id="hitUp" parameterType="int">
+	update board set hit = hit + 1 where seqno=#{param1};
+</update>
+
+<delete id="delPost" parameterType="int">
+	delete from board where seqno=#{param1};
+</delete>
+
+<insert id='insPost'>
+	insert into board set title=#{param1}, content=#{param2}, writer=#{param3}, created=#{param4}, updated=#{param5};
+</insert>
+
+<update id="udPost">
+	update board set title=#{param2}, content=#{param3}, updated=now() where seqno=#{param1};
+</update>
+
+<select id="getTotal" resultType="int">
+	select count(*) from board
+</select>
+
+<insert id="signup" parameterType="java.util.HashMap">
+	insert into member set userid=#{param1}, passcode=#{param2};
+</insert>
+
+<select id="login" resultType="com.himedia.springboot.BoardDTO">
+	select userid,selficon from member where userid=#{param1} and passcode=#{param2};
+</select>
+
+</mapper>									  	  
